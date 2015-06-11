@@ -1,0 +1,1 @@
+AngularJS directive for generating barcodes. Based on https://github.com/lindell/JsBarcode
