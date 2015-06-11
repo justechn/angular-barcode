@@ -1,0 +1,16 @@
+{
+  "name": "angular-barcode",
+  "description": "angular barcode",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ryanmc2033/angular-barcode.git"
+  },
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-uglify": "~0.4.0"
+  }
+}

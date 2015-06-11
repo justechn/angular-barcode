@@ -144,5 +144,6 @@ angular.module('barcodeGenerator', []).directive('barcode', [
 
                 validFunctionIfExist(true);
             }
-        }
-    }]);
+        };
+    }
+]);

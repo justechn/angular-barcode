@@ -1,35 +1,35 @@
-angular.module("barcodeGenerator").factory('ItfNumberService', [function () {
+angular.module("barcodeGenerator").factory('Itf14NumberService', [function () {
     'use strict';
 
     var barcode = {};
 
-    barcode.generate = function (ITFNumber) {
+    barcode.generate = function (ITF14number) {
 
-        this.ITFNumber = ITFNumber + "";
+        this.ITF14number = ITF14number + "";
 
         this.valid = function () {
-            return valid(this.ITFNumber);
+            return valid(this.ITF14number);
         };
 
         this.encoded = function () {
-            if (valid(this.ITFNumber)) {
-                return encode(this.ITFNumber);
+            if (valid(this.ITF14number)) {
+                return encode(this.ITF14number);
             }
             return "";
         };
 
         //The structure for the all digits, 1 is wide and 0 is narrow
         var digitStructure = {
-            "0": "00110"
-            , "1": "10001"
-            , "2": "01001"
-            , "3": "11000"
-            , "4": "00101"
-            , "5": "10100"
-            , "6": "01100"
-            , "7": "00011"
-            , "8": "10010"
-            , "9": "01010"
+            "0": "00110",
+            "1": "10001",
+            "2": "01001",
+            "3": "11000",
+            "4": "00101",
+            "5": "10100",
+            "6": "01100",
+            "7": "00011",
+            "8": "10010",
+            "9": "01010"
         };
 
         //The start bits
@@ -37,19 +37,24 @@ angular.module("barcodeGenerator").factory('ItfNumberService', [function () {
         //The end bits
         var endBin = "11101";
 
-        //Regexp for a valid Inter25 code
-        var regexp = /^([0-9][0-9])+$/;
+        //Regexp for a valid ITF14 code
+        var regexp = /^[0-9]{13,14}$/;
 
         //Convert a numberarray to the representing
         function encode(number) {
             //Create the variable that should be returned at the end of the function
             var result = "";
 
+            //If checksum is not already calculated, do it
+            if (number.length == 13) {
+                number += checksum(number);
+            }
+
             //Always add the same start bits
             result += startBin;
 
             //Calculate all the digit pairs
-            for (var i = 0; i < number.length; i += 2) {
+            for (var i = 0; i < 14; i += 2) {
                 result += calculatePair(number.substr(i, 2));
             }
 
@@ -74,8 +79,26 @@ angular.module("barcodeGenerator").factory('ItfNumberService', [function () {
             return result;
         }
 
+        //Calulate the checksum digit
+        function checksum(numberString) {
+            var result = 0;
+
+            for (var i = 0; i < 13; i++) {
+                result += parseInt(numberString[i]) * (3 - (i % 2) * 2);
+            }
+
+            return 10 - (result % 10);
+        }
+
         function valid(number) {
-            return number.search(regexp) !== -1;
+            if (number.search(regexp) == -1) {
+                return false;
+            }
+            //Check checksum if it is already calculated
+            else if (number.length == 14) {
+                return number[13] == checksum(number);
+            }
+            return true;
         }
     };
 

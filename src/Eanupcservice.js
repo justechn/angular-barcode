@@ -144,10 +144,10 @@ angular.module("barcodeGenerator").factory('EanUpcService', [function () {
             var result = 0;
 
             for (var i = 0; i < 12; i += 2) {
-                result += parseInt(number[i])
+                result += parseInt(number[i]);
             }
-            for (var i = 1; i < 12; i += 2) {
-                result += parseInt(number[i]) * 3
+            for (var j = 1; j < 12; j += 2) {
+                result += parseInt(number[j]) * 3;
             }
 
             return (10 - (result % 10)) % 10;
@@ -174,8 +174,7 @@ angular.module("barcodeGenerator").factory('EanUpcService', [function () {
 
         this.encoded = function () {
             return this.ean.encoded();
-        }
-
+        };
     }
 
     return barcode;
