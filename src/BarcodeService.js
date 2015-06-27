@@ -1,4 +1,4 @@
-angular.module("barcodeGenerator").factory('BarcodeService', [
+angular.module("barcode").factory('BarcodeService', [
     function () {
         'use strict';
 

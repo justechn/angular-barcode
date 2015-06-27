@@ -1,77 +1,78 @@
-angular.module('barcodeGenerator', []).directive('barcode', [
+angular.module('barcode', []).directive('barcode', [
     'BarcodeService',
     'Code39Service',
-    'Code128Service',
-    'EanUpcService',
+    'Code128BService',
+    'Code128CService',
+    'EanService',
     'Itf14NumberService',
     'ItfNumberService',
+    'UpcService',
     function (barcodeService,
               code39Service,
-              code128Service,
-              eanupcService,
-              itf14numberService,
-              itfnumberService) {
-        return {
-            restrict: 'E',
-            scope: {
-                type: '=type',
-                code: '=code'
-            },
-            template: '<canvas></canvas>',
-            link: function (scope, element, attrs) {
-                var defaults = {
-                    width: 2,
-                    height: 100,
-                    quite: 10,
-                    format: "CODE128",
-                    displayValue: false,
-                    font: "monospace",
-                    textAlign: "center",
-                    fontSize: 12,
-                    backgroundColor: "",
-                    lineColor: "#000"
-                };
+              code128BService,
+              code128CService,
+              eanService,
+              itf14NumberService,
+              itfNumberService,
+              upcService) {
 
-                //This tries to call the valid function only if it's specified. Otherwise nothing happens
-                var validFunctionIfExist = function (valid) {
-                    if (validFunction) {
-                        validFunction(valid);
-                    }
-                };
+        function link(scope, element, attrs) {
+            var defaults = {
+                width: 2,
+                height: 100,
+                quite: 10,
+                displayValue: false,
+                font: "monospace",
+                textAlign: "center",
+                fontSize: 12,
+                backgroundColor: "",
+                lineColor: "#000"
+            };
 
-                //Merge the user options with the default
-                options = barcodeService.merge(defaults, options);
+            var canvas = element.find('canvas')[0];
 
-                //Create the canvas where the barcode will be drawn on
-                // Check if the given image is already a canvas
-                var canvas = image;
+            var options = [];
+            //Merge the user options with the default
+            options = barcodeService.merge(defaults, options);
 
-                // check if it is a jQuery object
-                if (window.jQuery && canvas instanceof jQuery) {
-                    // get the DOM element of the object
-                    canvas = image.get(0);
-                }
+            //Abort if the browser does not support HTML5canvas
+            if (!canvas.getContext) {
+                return image;
+            }
 
-                // check if DOM element is a canvas, otherwise it will be probably an image so create a canvas
-                if (!(canvas instanceof HTMLCanvasElement)) {
-                    canvas = document.createElement('canvas');
-                }
+            var encoder = '';
+            switch (attrs.type) {
+                case 'upc':
+                    encoder = upcService;
+                    break;
+                case 'ean':
+                    encoder = eanService;
+                    break;
+                case 'code39':
+                    encoder = code39Service;
+                    break;
+                case 'code128b':
+                    encoder = code128BService;
+                    break;
+                case 'code128c':
+                    encoder = code128CService;
+                    break;
+                case 'itf':
+                    encoder = itfNumberService;
+                    break;
+                case 'itf14':
+                    encoder = itf14NumberService;
+                    break;
+            }
 
-                //Abort if the browser does not support HTML5canvas
-                if (!canvas.getContext) {
-                    return image;
-                }
+            if (encoder === '') {
+                return;
+            }
 
-                var encoder = new window[options.format](content);
+            //Encode the content
+            var binary = encoder.encoded(attrs.string);
 
-                //Abort if the barcode format does not support the content
-                if (!encoder.valid()) {
-                    validFunctionIfExist(false);
-                    return this;
-                }
-
-                //Encode the content
-                var binary = encoder.encoded();
+            if (!angular.isUndefined(binary)) {
 
                 var _drawBarcodeText = function (text) {
                     var x, y;
@@ -126,24 +127,17 @@ angular.module('barcodeGenerator', []).directive('barcode', [
                 if (options.displayValue) {
                     _drawBarcodeText(content);
                 }
-
-                //Grab the dataUri from the canvas
-                uri = canvas.toDataURL('image/png');
-
-                // check if given image is a jQuery object
-                if (window.jQuery && image instanceof jQuery) {
-                    // check if DOM element of jQuery selection is not a canvas, so assume that it is an image
-                    if (!(image.get(0) instanceof HTMLCanvasElement)) {
-                        //Put the data uri into the image
-                        image.attr("src", uri);
-                    }
-                } else if (!(image instanceof HTMLCanvasElement)) {
-                    // There is no jQuery object so just check if the given image was a canvas, if not set the source attr
-                    image.setAttribute("src", uri);
-                }
-
-                validFunctionIfExist(true);
             }
+        }
+
+        return {
+            restrict: 'E',
+            scope: {
+                type: '=type',
+                code: '=code'
+            },
+            template: '<canvas></canvas>',
+            link: link
         };
     }
 ]);
