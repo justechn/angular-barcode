@@ -33,7 +33,7 @@ angular.module('barcode', []).directive('barcode', [
 
             var options = [];
             //Merge the user options with the default
-            options = barcodeService.merge(defaults, options);
+            options = barcodeService.merge(defaults, scope.options);
 
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
@@ -125,7 +125,7 @@ angular.module('barcode', []).directive('barcode', [
                 }
 
                 if (options.displayValue) {
-                    _drawBarcodeText(content);
+                    _drawBarcodeText(attrs.string);
                 }
             }
         }
@@ -133,8 +133,7 @@ angular.module('barcode', []).directive('barcode', [
         return {
             restrict: 'E',
             scope: {
-                type: '=type',
-                code: '=code'
+                options: '=options'
             },
             template: '<canvas></canvas>',
             link: link
