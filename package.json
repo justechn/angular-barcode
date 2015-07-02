@@ -2,6 +2,10 @@
   "name": "angular-barcode",
   "description": "angular barcode",
   "version": "0.0.1",
+  "filename": "barcode.min.js",
+  "main": "./dist/barcode.min.js",
+  "homepage": "https://github.com/ryanmc2033/angular-barcode",
+  "author": "Ryan McLaughlin <ryanmc@justechn.com>",
   "repository": {
     "type": "git",
     "url": "git://github.com/ryanmc2033/angular-barcode.git"
@@ -10,7 +14,24 @@
     "grunt": "~0.4.5"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-uglify": "~0.4.0"
-  }
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-bower": "*",
+    "grunt-bower-task": "*"
+  },
+  "keywords": [
+    "angular",
+    "barcode"
+  ],
+  "maintainers": [
+    {
+      "name": "Ryan McLaughlin",
+      "website": "http://www.justechn.com/"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test --verbose"
+  },
+  "license": "MIT"
 }
