@@ -127,16 +127,15 @@ angular.module('barcode', []).directive('barcode', [
                 if (options.displayValue) {
                     _drawBarcodeText(attrs.string);
                 }
-                console.log(element);
                 if(options.renderIn === 'img'){
-                  var image = document.createElement("img");
-                  uri = canvas.toDataURL('image/png');
-  			          image.setAttribute("src", uri);
-                  element.append(image);
+                    var image = document.createElement("img");
+                    var uri = canvas.toDataURL('image/png');
+                    image.setAttribute("src", uri);
+                    element.append(image);
                 }
                 else
                 {
-                  element.append(canvas);
+                    element.append(canvas);
                 }
             }
         }
