@@ -1,6 +1,6 @@
 /**
  * angular barcode
- * @version v0.0.1 - 2015-12-31 * @link https://github.com/ryanmc2033/angular-barcode
+ * @version v0.0.2 - 2015-12-31 * @link https://github.com/ryanmc2033/angular-barcode
  * @author Ryan McLaughlin <ryanmc@justechn.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */angular.module('barcode', []).directive('barcode', [
@@ -132,16 +132,15 @@
                 if (options.displayValue) {
                     _drawBarcodeText(attrs.string);
                 }
-                console.log(element);
                 if(options.renderIn === 'img'){
-                  var image = document.createElement("img");
-                  uri = canvas.toDataURL('image/png');
-  			          image.setAttribute("src", uri);
-                  element.append(image);
+                    var image = document.createElement("img");
+                    var uri = canvas.toDataURL('image/png');
+                    image.setAttribute("src", uri);
+                    element.append(image);
                 }
                 else
                 {
-                  element.append(canvas);
+                    element.append(canvas);
                 }
             }
         }
