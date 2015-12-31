@@ -26,15 +26,15 @@ angular.module('barcode', []).directive('barcode', [
                 textAlign: "center",
                 fontSize: 12,
                 backgroundColor: "",
-                lineColor: "#000"
+                lineColor: "#000",
+                renderIn: "img"
             };
-
-            var canvas = element.find('canvas')[0];
 
             var options = [];
             //Merge the user options with the default
             options = barcodeService.merge(defaults, scope.options);
 
+            var canvas = document.createElement('canvas');
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
                 return image;
@@ -127,15 +127,25 @@ angular.module('barcode', []).directive('barcode', [
                 if (options.displayValue) {
                     _drawBarcodeText(attrs.string);
                 }
+                console.log(element);
+                if(options.renderIn === 'img'){
+                  var image = document.createElement("img");
+                  uri = canvas.toDataURL('image/png');
+  			          image.setAttribute("src", uri);
+                  element.append(image);
+                }
+                else
+                {
+                  element.append(canvas);
+                }
             }
         }
-
         return {
             restrict: 'E',
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
+            template: '',
             link: link
         };
     }
