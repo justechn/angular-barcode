@@ -131,7 +131,7 @@ angular.module('barcode', []).directive('barcode', [
         }
 
         function watchStringAttr(scope, element, attrs) {
-            attrs.$observe('string', function(value){
+            attrs.$observe('string', function (value) {
                 link(scope, element, attrs);
             });
         }

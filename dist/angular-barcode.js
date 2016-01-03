@@ -1,9 +1,10 @@
 /**
  * angular barcode
- * @version v0.0.1 - 2015-07-01 * @link https://github.com/ryanmc2033/angular-barcode
+ * @version v0.0.2 - 2016-01-03 * @link https://github.com/ryanmc2033/angular-barcode
  * @author Ryan McLaughlin <ryanmc@justechn.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
- */angular.module('barcode', []).directive('barcode', [
+ */
+ angular.module('barcode', []).directive('barcode', [
     'BarcodeService',
     'Code39Service',
     'Code128BService',
@@ -135,13 +136,19 @@
             }
         }
 
+        function watchStringAttr(scope, element, attrs) {
+            attrs.$observe('string', function (value) {
+                link(scope, element, attrs);
+            });
+        }
+
         return {
             restrict: 'E',
             scope: {
                 options: '=options'
             },
             template: '<canvas></canvas>',
-            link: link
+            link: watchStringAttr
         };
     }
 ]);
