@@ -27,7 +27,7 @@ angular.module('barcode', []).directive('barcode', [
                 fontSize: 12,
                 backgroundColor: "",
                 lineColor: "#000",
-                renderIn: "img"
+                renderIn: "canvas"
             };
 
             var options = [];
@@ -151,7 +151,7 @@ angular.module('barcode', []).directive('barcode', [
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
+            template: '',
             link: watchStringAttr
         };
     }

@@ -33,7 +33,7 @@
                 fontSize: 12,
                 backgroundColor: "",
                 lineColor: "#000",
-                renderIn: "img"
+                renderIn: "canvas"
             };
 
             var options = [];
@@ -157,7 +157,7 @@
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
+            template: '',
             link: watchStringAttr
         };
     }
