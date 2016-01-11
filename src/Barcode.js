@@ -139,13 +139,20 @@ angular.module('barcode', []).directive('barcode', [
                 }
             }
         }
+
+        function watchStringAttr(scope, element, attrs) {
+            attrs.$observe('string', function (value) {
+                link(scope, element, attrs);
+            });
+        }
+
         return {
             restrict: 'E',
             scope: {
                 options: '=options'
             },
-            template: '',
-            link: link
+            template: '<canvas></canvas>',
+            link: watchStringAttr
         };
     }
 ]);

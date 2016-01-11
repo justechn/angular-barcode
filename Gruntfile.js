@@ -14,7 +14,8 @@ module.exports = function (grunt) {
                 ' * @link <%= pkg.homepage %>',
                 ' * @author <%= pkg.author %>',
                 ' * @license MIT License, http://www.opensource.org/licenses/MIT',
-                ' */'
+                ' */',
+                ' '
             ].join('\n')
         },
         dirs: {
