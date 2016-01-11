@@ -9,7 +9,9 @@
     <script type="text/javascript">
         angular.module('barcodeExample', ['barcode'])
                 .controller('Controller', ['$scope', function ($scope) {
-                    $scope.options = {
+                    var vm = this;
+
+                    vm.options = {
                         width: 2,
                         height: 100,
                         quite: 10,
@@ -20,18 +22,69 @@
                         backgroundColor: "",
                         lineColor: "#000"
                     };
+
+                    var barcodes = [
+                        {
+                            type: "ean",
+                            code:  "0029000018068"
+                        },
+                        {
+                            type: "upc",
+                            code:  "029000018068"
+                        },
+                        {
+                            type: "code39",
+                            code:  "Code39 Barcode"
+                        },
+                        {
+                            type: "code128b",
+                            code:  "Code128B Barcode"
+                        },
+                        {
+                            type: "code128c",
+                            code:  "22"
+                        },
+                        {
+                            type: "itf",
+                            code:  "1234567895"
+                        },
+                        {
+                            type: "itf14",
+                            code:  "98765432109213"
+                        }
+                    ];
+
+                    vm.mycode = {};
+                    vm.mycode.type = "ean";
+                    vm.mycode.code = "0029000018068";
+
+                    var i = 0;
+
+                    setInterval(
+                            function () {
+                                if (i < barcodes.length) {
+                                    vm.mycode.type = barcodes[i].type;
+                                    vm.mycode.code = barcodes[i].code;
+                                    i++;
+                                } else {
+                                    i = 0;
+                                }
+                                $scope.$apply();
+                            },
+                            1000);
                 }]);
     </script>
 </head>
 <body ng-app="barcodeExample">
-<div ng-controller="Controller">
-    <barcode type="ean" string="0029000018068" options="options"></barcode><br>
-    <barcode type="upc" string="029000018068" options="options"></barcode><br>
-    <barcode type="code39" string="Code39 Barcode" options="options"></barcode><br>
-    <barcode type="code128b" string="Code128B Barcode" options="options"></barcode><br>
-    <barcode type="code128c" string="22" options="options"></barcode><br>
-    <barcode type="itf" string="1234567895" options="options"></barcode><br>
-    <barcode type="itf14" string="98765432109213" options="options"></barcode><br>
+<div ng-controller="Controller as vm">
+    <barcode type="{{vm.mycode.type}}" string="{{vm.mycode.code}}" options="vm.options"></barcode><br>
+    <barcode type="ean" string="0029000018068" options="vm.options"></barcode><br>
+    <barcode type="upc" string="029000018068" options="vm.options"></barcode><br>
+    <barcode type="code39" string="Code39 Barcode" options="vm.options"></barcode><br>
+    <barcode type="code128b" string="Code128B Barcode" options="vm.options"></barcode><br>
+    <barcode type="code128c" string="22" options="vm.options"></barcode><br>
+    <barcode type="itf" string="1234567895" options="vm.options"></barcode><br>
+    <barcode type="itf14" string="98765432109213" options="vm.options"></barcode><br>
 </div>
 </body>
 </html>
