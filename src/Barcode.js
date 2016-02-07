@@ -37,7 +37,7 @@ angular.module('barcode', []).directive('barcode', [
             var canvas = document.createElement('canvas');
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
-                return image;
+                return null;
             }
 
             var encoder = '';
