@@ -32,15 +32,15 @@
                 textAlign: "center",
                 fontSize: 12,
                 backgroundColor: "",
-                lineColor: "#000"
+                lineColor: "#000",
+                renderIn: "canvas"
             };
-
-            var canvas = element.find('canvas')[0];
 
             var options = [];
             //Merge the user options with the default
             options = barcodeService.merge(defaults, scope.options);
 
+            var canvas = document.createElement('canvas');
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
                 return image;
@@ -133,6 +133,16 @@
                 if (options.displayValue) {
                     _drawBarcodeText(attrs.string);
                 }
+                if(options.renderIn === 'img'){
+                    var image = document.createElement("img");
+                    var uri = canvas.toDataURL('image/png');
+                    image.setAttribute("src", uri);
+                    element.append(image);
+                }
+                else
+                {
+                    element.append(canvas);
+                }
             }
         }
 
@@ -147,7 +157,7 @@
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
+            template: '',
             link: watchStringAttr
         };
     }

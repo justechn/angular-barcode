@@ -22,7 +22,18 @@
                         backgroundColor: "",
                         lineColor: "#000"
                     };
-
+                    vm.optionsForImg = {
+                        width: 2,
+                        height: 100,
+                        quite: 10,
+                        displayValue: true,
+                        font: "monospace",
+                        textAlign: "center",
+                        fontSize: 12,
+                        backgroundColor: "",
+                        lineColor: "#000",
+                        renderIn: "img"
+                    };
                     var barcodes = [
                         {
                             type: "ean",
@@ -77,6 +88,7 @@
 </head>
 <body ng-app="barcodeExample">
 <div ng-controller="Controller as vm">
+    <h4>Rendered in canvas</h4>
     <barcode type="{{vm.mycode.type}}" string="{{vm.mycode.code}}" options="vm.options"></barcode><br>
     <barcode type="ean" string="0029000018068" options="vm.options"></barcode><br>
     <barcode type="upc" string="029000018068" options="vm.options"></barcode><br>
@@ -85,6 +97,14 @@
     <barcode type="code128c" string="22" options="vm.options"></barcode><br>
     <barcode type="itf" string="1234567895" options="vm.options"></barcode><br>
     <barcode type="itf14" string="98765432109213" options="vm.options"></barcode><br>
+    <h4>Rendered in img element</h4>
+    <barcode type="ean" string="0029000018068" options="vm.optionsForImg"></barcode><br>
+    <barcode type="upc" string="029000018068" options="vm.optionsForImg"></barcode><br>
+    <barcode type="code39" string="Code39 Barcode" options="vm.optionsForImg"></barcode><br>
+    <barcode type="code128b" string="Code128B Barcode" options="vm.optionsForImg"></barcode><br>
+    <barcode type="code128c" string="22" options="vm.optionsForImg"></barcode><br>
+    <barcode type="itf" string="1234567895" options="vm.optionsForImg"></barcode><br>
+    <barcode type="itf14" string="98765432109213" options="vm.optionsForImg"></barcode><br>
 </div>
 </body>
 </html>
