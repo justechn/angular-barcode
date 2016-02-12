@@ -131,11 +131,11 @@ angular.module('barcode', []).directive('barcode', [
                     var image = document.createElement("img");
                     var uri = canvas.toDataURL('image/png');
                     image.setAttribute("src", uri);
-                    element.append(image);
+                    element.empty().append(image);
                 }
                 else
                 {
-                    element.append(canvas);
+                    element.empty().append(canvas);
                 }
             }
         }
@@ -152,6 +152,7 @@ angular.module('barcode', []).directive('barcode', [
                 options: '=options'
             },
             template: '',
+            replace: true,
             link: watchStringAttr
         };
     }
