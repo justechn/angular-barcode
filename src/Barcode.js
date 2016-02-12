@@ -34,7 +34,8 @@ angular.module('barcode', []).directive('barcode', [
             //Merge the user options with the default
             options = barcodeService.merge(defaults, scope.options);
 
-            var canvas = document.createElement('canvas');
+            var canvas = element.find('canvas')[0];
+
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
                 return null;
@@ -127,21 +128,18 @@ angular.module('barcode', []).directive('barcode', [
                 if (options.displayValue) {
                     _drawBarcodeText(attrs.string);
                 }
-                if(options.renderIn === 'img'){
+
+                if (options.renderIn === 'img') {
                     var image = document.createElement("img");
                     var uri = canvas.toDataURL('image/png');
                     image.setAttribute("src", uri);
                     element.empty().append(image);
                 }
-                else
-                {
-                    element.empty().append(canvas);
-                }
             }
         }
 
         function watchStringAttr(scope, element, attrs) {
-            attrs.$observe('string', function (value) {
+            attrs.$observe('string', function () {
                 link(scope, element, attrs);
             });
         }
@@ -151,8 +149,7 @@ angular.module('barcode', []).directive('barcode', [
             scope: {
                 options: '=options'
             },
-            template: '',
-            replace: true,
+            template: '<canvas></canvas>',
             link: watchStringAttr
         };
     }

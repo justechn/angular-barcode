@@ -1,7 +1,7 @@
 {
   "name": "angular-barcode",
   "description": "angular barcode",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "filename": "barcode.min.js",
   "main": "./dist/barcode.min.js",
   "homepage": "https://github.com/ryanmc2033/angular-barcode",
