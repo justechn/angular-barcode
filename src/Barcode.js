@@ -26,8 +26,7 @@ angular.module('barcode', []).directive('barcode', [
                 textAlign: "center",
                 fontSize: 12,
                 backgroundColor: "",
-                lineColor: "#000",
-                renderIn: "canvas"
+                lineColor: "#000"
             };
 
             var options = [];
@@ -35,6 +34,10 @@ angular.module('barcode', []).directive('barcode', [
             options = barcodeService.merge(defaults, scope.options);
 
             var canvas = element.find('canvas')[0];
+
+            if (attrs.render == "img") {
+                canvas = document.createElement('canvas');
+            }
 
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
@@ -129,11 +132,10 @@ angular.module('barcode', []).directive('barcode', [
                     _drawBarcodeText(attrs.string);
                 }
 
-                if (options.renderIn === 'img') {
-                    var image = document.createElement("img");
+                if (attrs.render == "img") {
                     var uri = canvas.toDataURL('image/png');
+                    var image = element.find('img')[0];
                     image.setAttribute("src", uri);
-                    element.empty().append(image);
                 }
             }
         }
@@ -144,13 +146,24 @@ angular.module('barcode', []).directive('barcode', [
             });
         }
 
+        function compile(element, attrs) {
+            var template = "<canvas>";
+            if (attrs.render == "img") {
+                template = "<img>";
+            }
+            element.append(template);
+
+            return {
+                post: watchStringAttr
+            };
+        }
+
         return {
             restrict: 'E',
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
-            link: watchStringAttr
+            compile: compile
         };
     }
 ]);

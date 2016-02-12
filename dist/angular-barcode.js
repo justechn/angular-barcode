@@ -1,6 +1,6 @@
 /**
  * angular barcode
- * @version v0.0.3 - 2016-02-11 * @link https://github.com/ryanmc2033/angular-barcode
+ * @version v0.0.4 - 2016-02-11 * @link https://github.com/ryanmc2033/angular-barcode
  * @author Ryan McLaughlin <ryanmc@justechn.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -32,8 +32,7 @@
                 textAlign: "center",
                 fontSize: 12,
                 backgroundColor: "",
-                lineColor: "#000",
-                renderIn: "canvas"
+                lineColor: "#000"
             };
 
             var options = [];
@@ -41,6 +40,10 @@
             options = barcodeService.merge(defaults, scope.options);
 
             var canvas = element.find('canvas')[0];
+
+            if (attrs.render == "img") {
+                canvas = document.createElement('canvas');
+            }
 
             //Abort if the browser does not support HTML5canvas
             if (!canvas.getContext) {
@@ -135,11 +138,10 @@
                     _drawBarcodeText(attrs.string);
                 }
 
-                if (options.renderIn === 'img') {
-                    var image = document.createElement("img");
+                if (attrs.render == "img") {
                     var uri = canvas.toDataURL('image/png');
+                    var image = element.find('img')[0];
                     image.setAttribute("src", uri);
-                    element.empty().append(image);
                 }
             }
         }
@@ -150,13 +152,24 @@
             });
         }
 
+        function compile(element, attrs) {
+            var template = "<canvas>";
+            if (attrs.render == "img") {
+                template = "<img>";
+            }
+            element.append(template);
+
+            return {
+                post: watchStringAttr
+            };
+        }
+
         return {
             restrict: 'E',
             scope: {
                 options: '=options'
             },
-            template: '<canvas></canvas>',
-            link: watchStringAttr
+            compile: compile
         };
     }
 ]);
