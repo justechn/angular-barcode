@@ -2,7 +2,7 @@
   "name": "angular-barcode",
   "version": "0.0.4",
   "main": [
-    "./dist/angular-barcode.min.js"
+    "./dist/angular-barcode.js"
   ],
   "description": "Barcode generator for AngularJS apps",
   "repository": {
